@@ -1,0 +1,36 @@
+import mongoose from "mongoose";
+
+const userModel =new mongoose.Schema(
+    {
+        "id": {
+            type: String,
+            unique: true,
+            index: true,
+            default: function() {
+                // Generate custom user ID: USER_ + timestamp + random
+                const timestamp = Date.now().toString();
+                const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+                return `USER_${timestamp}_${random}`;
+            }
+        } ,
+        "name" :{
+            required:true,
+            type :String
+        } ,
+        "email" :{
+            required:true,
+            type:String
+        },
+        "password" :{
+            required:true,
+            type:String
+        },
+        "role" :{
+            required:true,
+            type:String
+        },
+    }
+);
+
+const User = mongoose.model('User' ,userModel)
+export default User;
