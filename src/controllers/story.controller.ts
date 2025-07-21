@@ -2,7 +2,8 @@ import {Request, Response} from "express";
 import * as storyService from "../services/story.service"
 
 
-// controller function handle get all products
+
+
 export const getAllStories = async (req: Request, res: Response) => {
 
     try {
@@ -15,6 +16,28 @@ export const getAllStories = async (req: Request, res: Response) => {
         })
     }
 
+}
+
+
+
+export const getStory = async (req: Request, res: Response) => {
+    const storyId =  req.params.id;
+    const userIdPattern = /^STORY_\d+_\d{3}$/; // USER_timestamp_randomnumber format
+
+    if (!storyId || !userIdPattern.test(storyId)) {
+        res.status(400).json({
+            error: 'Invalid Story ID Format!!!!'
+        });
+        return;
+    }
+    const story = await storyService.getStoryById(storyId)
+    if(!story){
+        res.status(404).json({
+            error : 'Story not found!!'
+        })
+        return;
+    }
+    res.status(200).json(story)
 }
 export const saveStory = async (req: Request, res: Response) => {
 
@@ -43,10 +66,10 @@ export const saveStory = async (req: Request, res: Response) => {
 
 export const getStories = async (req: Request, res: Response) => {
     try {
-        // Typo fix: categotyName -> categoryName
+
         const categoryName = req.params.categoryName;
 
-        // Validation
+
         if (!categoryName || categoryName.trim() === '') {
             return res.status(400).json({
                 error: 'Category name is required'
@@ -55,7 +78,7 @@ export const getStories = async (req: Request, res: Response) => {
 
         const storyDtos = await storyService.getStoriesByCategory(categoryName);
 
-        // Empty array check (length === 0)
+
         if (!storyDtos || storyDtos.length === 0) {
             return res.status(404).json({
                 error: 'Stories not found for this category!',

@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import * as categoryService from "../services/category.service"
 
 
-// controller function handle get all products
+
 export const getAllCategories = async (req: Request, res: Response) => {
 
     try {

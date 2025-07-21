@@ -3,7 +3,7 @@ import {getUser , getAllUsers , saveUser , updateUser , deleteUser} from "../con
 
 const  userRoutes : Router = Router();
 
-// Handle request
+
 userRoutes.get("/all" , getAllUsers);
 userRoutes.post("/save" , saveUser);
 userRoutes.get("/:id" , getUser)

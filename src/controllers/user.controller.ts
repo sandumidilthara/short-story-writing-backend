@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import * as userService from "../services/user.service"
 
 
-// controller function handle get all products
+
 export const getAllUsers = async (req: Request, res: Response) => {
 
     try {

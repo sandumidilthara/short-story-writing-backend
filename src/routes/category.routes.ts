@@ -3,7 +3,6 @@ import {deleteCategory,saveCategory , updateCategory , getCategory , getAllCateg
 
 const  categoryRouter : Router = Router();
 
-// Handle request
 categoryRouter.get("/all" , getAllCategories);
 categoryRouter.post("/save" , saveCategory);
 categoryRouter.get("/:id" , getCategory)

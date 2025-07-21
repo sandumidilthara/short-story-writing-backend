@@ -4,6 +4,7 @@ import  Story from "../model/story.model"
 import {StoryDto} from "../dto/story.dto";
 
 
+
 export const getAllStories = async ():Promise<StoryDto[]>  => {
     return Story.find();
 }
@@ -15,15 +16,15 @@ export const saveStory = async (category : StoryDto) : Promise<StoryDto> => {
 
 export const getStoriesByCategory = async (categoryName: string): Promise<StoryDto[]> => {
     try {
-        // Mongoose syntax - find() with regex for partial search
+
         const stories = await Story.find({
             category: {
                 $regex: categoryName,
-                $options: 'i' // Case insensitive search
+                $options: 'i'
             }
         })
-            .sort({ category: 1 }) // Ascending order
-            .lean(); // Performance optimization
+            .sort({ category: 1 })
+            .lean();
 
         return stories as StoryDto[];
 
@@ -49,6 +50,10 @@ export const deleteStory = async (id : string) => {
 }
 
 
+
+export const getStoryById = async (id : string): Promise<StoryDto | null> => {
+    return Story.findOne({id :id});
+}
 
 export const validateStory = (story : StoryDto) => {
     if(  !story.name || !story.category || !story.author || !story.authorEmail || !story.content || !story.imageUrl || !story.createdAt){
