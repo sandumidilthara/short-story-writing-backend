@@ -108,3 +108,4 @@ export const deleteUser = async (req: Request, res: Response) => {
         message : 'User deleted successfully!! '
     })
 }
+

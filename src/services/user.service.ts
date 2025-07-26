@@ -9,10 +9,31 @@ export const getAllUsers= async ():Promise<UserDto[]>  => {
 }
 
 
-export const saveUser = async (user : UserDto) : Promise<UserDto> => {
-    return  User.create(user)
-}
 
+
+import bcrypt from 'bcryptjs';
+
+export const saveUser = async (user: UserDto): Promise<UserDto> => {
+    try {
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+
+
+        const userWithHashedPassword = {
+            ...user,
+            password: hashedPassword
+        };
+
+
+
+        return await User.create(userWithHashedPassword);
+
+    } catch (error) {
+
+        throw error;
+    }
+};
 
 
 export const getUserById = async (id : string): Promise<UserDto | null> => {
