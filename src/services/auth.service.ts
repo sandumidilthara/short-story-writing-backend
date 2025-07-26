@@ -35,7 +35,7 @@ export const authenticateUser = async (email: string, password: string) => {
             name: existingUser.name,
             email: existingUser.email,
             role: existingUser.role
-        }, JWT_SECRET, { expiresIn: "5m" });
+        }, JWT_SECRET, { expiresIn: "24h" });
 
 
         const refreshToken = jwt.sign({
@@ -62,38 +62,3 @@ export const authenticateUser = async (email: string, password: string) => {
 };
 
 
-export const refreshAccessToken = async (refreshToken: string) => {
-    try {
-        if (!refreshTokens.has(refreshToken)) {
-            return null;
-        }
-
-        const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET) as any;
-        const user = await User.findOne({ email: decoded.email });
-
-        if (!user) {
-            refreshTokens.delete(refreshToken);
-            return null;
-        }
-
-        const newAccessToken = jwt.sign({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role
-        }, JWT_SECRET, { expiresIn: "5m" });
-
-        return { accessToken: newAccessToken };
-
-    } catch (error) {
-        console.error("Token refresh error:", error);
-        refreshTokens.delete(refreshToken);
-        return null;
-    }
-};
-
-
-export const logoutUser = (refreshToken: string) => {
-    refreshTokens.delete(refreshToken);
-    return { message: "Logged out successfully" };
-};

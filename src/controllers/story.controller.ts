@@ -4,6 +4,7 @@ import * as storyService from "../services/story.service"
 
 
 
+
 export const getAllStories = async (req: Request, res: Response) => {
 
     try {
@@ -145,3 +146,6 @@ export const deleteStory = async (req: Request, res: Response) => {
         message : 'Story deleted successfully!! '
     })
 }
+
+
+
