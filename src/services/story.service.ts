@@ -66,3 +66,21 @@ export const validateStory = (story : StoryDto) => {
 
 
 
+export const getStoriesByAuthorEmail = async (authorEmail: string): Promise<StoryDto[]> => {
+    try {
+        const stories = await Story.find({
+            authorEmail: {
+                $regex: `^${authorEmail}$`,
+                $options: 'i'
+            }
+        })
+            .sort({ createdAt: -1 }) // Sort by newest first
+            .lean();
+
+        return stories as StoryDto[];
+
+    } catch (error) {
+        console.error('Error fetching stories by author email:', error);
+        throw new Error('Failed to fetch user stories');
+    }
+};

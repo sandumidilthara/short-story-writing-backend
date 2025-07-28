@@ -5,18 +5,20 @@ import {
     updateStory,
     deleteStory,
     getStories,
-    getStory
+    getStory, getUserStories
 } from "../controllers/story.controller";
+import {authenticateToken, authorizeRole} from "../middleware/auth.middleware";
+import {authenticateUser} from "../controllers/auth.controller";
 
 
 const  storyRouter : Router = Router();
-
+storyRouter.get("/my-stories", authenticateToken, getUserStories);
 
 storyRouter.get("/all" , getAllStories);
-storyRouter.post("/save" , saveStory);
+storyRouter.post("/save" ,saveStory);
  storyRouter.get("/all/:id" , getStory);
-storyRouter.get("/:categoryName", getStories);
-storyRouter.put("/update/:id" , updateStory)
+storyRouter.put("/update/:id" ,updateStory)
 storyRouter.delete("/delete/:id" , deleteStory)
+storyRouter.get("/:categoryName", getStories);
 
 export default storyRouter;

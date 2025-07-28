@@ -148,4 +148,58 @@ export const deleteStory = async (req: Request, res: Response) => {
 }
 
 
+export const getUserStories = async (req: Request, res: Response) => {
+    try {
+        console.log('getUserStories called');
+        console.log('req.user:', (req as any).user);
 
+        // Check if user exists in request (from auth middleware)
+        const user = (req as any).user;
+        if (!user) {
+            console.log('No user found in request');
+            return res.status(401).json({
+                error: 'User not authenticated'
+            });
+        }
+
+        // Try to get email from different sources
+        let userEmail = null;
+
+        // Option 1: From JWT token (if your token has email)
+        if (user.email) {
+            userEmail = user.email;
+        }
+        // Option 2: From request headers
+        else if (req.headers['user-email']) {
+            userEmail = req.headers['user-email'] as string;
+        }
+        // Option 3: From request body
+        else if (req.body.email) {
+            userEmail = req.body.email;
+        }
+
+        console.log('User email:', userEmail);
+
+        if (!userEmail) {
+            return res.status(400).json({
+                error: 'User email not found'
+            });
+        }
+
+        const stories = await storyService.getStoriesByAuthorEmail(userEmail);
+        console.log('Stories found:', stories.length);
+
+        return res.status(200).json({
+            stories,
+            count: stories.length,
+            userEmail
+        });
+
+    } catch (error) {
+        console.error('Error in getUserStories controller:', error);
+        return res.status(500).json({
+            error: 'Internal server error',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        });
+    }
+};

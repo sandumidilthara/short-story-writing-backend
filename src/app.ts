@@ -8,6 +8,7 @@ import storyRoutes from "./routes/story.routes";
 import userRoutes from "./routes/user.routes";
 
 import authRoutes from "./routes/auth.routes";
+import {authenticateToken} from "./middleware/auth.middleware";
 const  app:Express = express();
 
 
