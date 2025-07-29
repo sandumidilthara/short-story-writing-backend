@@ -7,8 +7,10 @@ import categoryRoutes from "./routes/category.routes";
 import storyRoutes from "./routes/story.routes";
 import userRoutes from "./routes/user.routes";
 
+
 import authRoutes from "./routes/auth.routes";
-import {authenticateToken} from "./middleware/auth.middleware";
+
+import emailRoutes from "./routes/email.routes";
 const  app:Express = express();
 
 
@@ -39,6 +41,8 @@ app.use("/api/auth" ,authRoutes )
 app.use("/api/category", categoryRoutes )
 app.use("/api/story", storyRoutes )
 app.use("/api/user", userRoutes )
+app.use("/api/email", emailRoutes);
+
 
 app.get('/' ,(req : Request , res :Response) =>{
     console.log(req.body)

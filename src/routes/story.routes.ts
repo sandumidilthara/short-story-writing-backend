@@ -7,8 +7,8 @@ import {
     getStories,
     getStory, getUserStories
 } from "../controllers/story.controller";
-import {authenticateToken, authorizeRole} from "../middleware/auth.middleware";
-import {authenticateUser} from "../controllers/auth.controller";
+import {authenticateToken} from "../middleware/auth.middleware";
+
 
 
 const  storyRouter : Router = Router();

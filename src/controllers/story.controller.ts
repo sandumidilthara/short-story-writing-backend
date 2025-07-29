@@ -153,7 +153,7 @@ export const getUserStories = async (req: Request, res: Response) => {
         console.log('getUserStories called');
         console.log('req.user:', (req as any).user);
 
-        // Check if user exists in request (from auth middleware)
+
         const user = (req as any).user;
         if (!user) {
             console.log('No user found in request');
@@ -162,18 +162,18 @@ export const getUserStories = async (req: Request, res: Response) => {
             });
         }
 
-        // Try to get email from different sources
+
         let userEmail = null;
 
-        // Option 1: From JWT token (if your token has email)
+
         if (user.email) {
             userEmail = user.email;
         }
-        // Option 2: From request headers
+
         else if (req.headers['user-email']) {
             userEmail = req.headers['user-email'] as string;
         }
-        // Option 3: From request body
+
         else if (req.body.email) {
             userEmail = req.body.email;
         }
